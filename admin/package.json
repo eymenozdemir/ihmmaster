@@ -1195,6 +1195,11 @@
       "last 1 safari version"
     ]
   },
+  "overrides": {
+  "react-typical": {
+    "react": "^18.0.0"
+  }
+}
   "author": "",
   "license": "ISC"
 }
