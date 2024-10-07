@@ -1173,7 +1173,8 @@
   "overrides": {
       "react-typical": {
           "react": "$react",
-          "react-dom": "$react-dom"
+          "react-dom": "$react-dom",
+          "react-rte": "$react-rte"
       }
   },
   "devDependencies": {},
