@@ -1174,7 +1174,7 @@
       "react-typical": {
           "react": "^18.2.0",
           "react-dom": "^18.2.0",
-          "react-rte": "^0.16.5"
+          "react-rte": "^0.16.5",
           "react-redux": "^8.1.3",
       }
   },
