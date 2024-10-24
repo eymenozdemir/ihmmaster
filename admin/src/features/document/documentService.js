@@ -25,12 +25,31 @@ const createDocument = async (document) => {
 const updateDocument = async (document) => {
   const response = await axios.put(
     `${base_url}document/${document.id}`,
-    { title: document.documentData.title },
+    { title: document.documentData.title,
+      type: document.documentData.type,
+      company: document.documentData.company,
+      vessel: document.documentData.vessel,
+      fileName: document.documentData.fileName,
+      fileId: document.documentData.fileId,
+      fileLink: document.documentData.fileLink,
+      documentStatus: document.documentData.documentStatus,
+     },
     config
   );
 
   return response.data;
 };
+
+const updateDocumentStatus = async (document) => {
+  const response = await axios.put(
+    `${base_url}document/status/${document.id}`,
+    { documentStatus: document.docData },
+    config
+  );
+
+  return response.data;
+};
+
 const getDocument = async (id) => {
   const response = await axios.get(`${base_url}document/${id}`, config);
 
@@ -50,6 +69,7 @@ const documentService = {
   createDocument,
   getDocument,
   updateDocument,
+  updateDocumentStatus,
   deleteDocument,
 };
 

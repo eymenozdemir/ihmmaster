@@ -61,7 +61,7 @@ const Vessels = () => {
     if(roleState.role=="Admin")
   {
     dispatch(getVessels());
-  } else if(roleState.role=="CompanyPersonal")
+  } else if(roleState.role=="Company Personal")
   {
     dispatch(getVesselsByCompany(roleState?.company));
   }
@@ -75,13 +75,13 @@ const Vessels = () => {
     tempIdx = tempIdx + 1;
     data1.push({
     key: tempIdx,
-    id: vesselState[i]._id,
-    title: vesselState[i].title,
-    IMO: vesselState[i].IMO,
-    company: vesselState[i].company.title,
-    type: vesselState[i].type,
-    flag: vesselState[i].flag,
-    tonnage: vesselState[i].tonnage,
+    id: vesselState[i]?._id,
+    title: vesselState[i]?.title,
+    IMO: vesselState[i]?.IMO,
+    company: vesselState[i]?.company?.title,
+    type: vesselState[i]?.type,
+    flag: vesselState[i]?.flag,
+    tonnage: vesselState[i]?.tonnage,
     action: (
         <>
         <Link

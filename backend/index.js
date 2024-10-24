@@ -8,6 +8,7 @@ const fileCategoryRouter = require("./routes/fileCategoryRoute");
 const documentRouter = require("./routes/documentRoute");
 const vesselRouter = require("./routes/vesselRoute");
 const companyRouter = require("./routes/companyRoute");
+const uploadRouter = require("./routes/uploadRoute");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
@@ -20,6 +21,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use("/api/user", authRouter);
 //FIXME Add companyRouter, vessel........
+app.use("/api/upload", uploadRouter);
 app.use("/api/file-category", fileCategoryRouter);
 app.use("/api/document", documentRouter);
 app.use("/api/vessel", vesselRouter);

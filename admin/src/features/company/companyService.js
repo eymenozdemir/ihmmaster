@@ -7,6 +7,12 @@ const getCompanies = async () => {
   return response.data;
 };
 
+const getCompaniesByCompany = async (id) => {
+  const response = await axios.get(`${base_url}company/by-company/${id}`,config);
+
+  return response.data;
+};
+
 const createCompany = async (company) => {
   const response = await axios.post(`${base_url}company/`, company, config);
   //console.log(company);
@@ -15,7 +21,14 @@ const createCompany = async (company) => {
 const updateCompany = async (company) => {
   const response = await axios.put(
     `${base_url}company/${company.id}`,
-    { title: company.companyData.title },
+    { title: company.companyData.title,
+      IMO: company.companyData.IMO,
+      email: company.companyData.email,
+      number: company.companyData.number,
+      address: company.companyData.address,
+      city: company.companyData.city,
+      country: company.companyData.country,
+    },
     config
   );
 
@@ -35,6 +48,7 @@ const deleteCompany = async (id) => {
 
 const companyService = {
   getCompanies,
+  getCompaniesByCompany,
   createCompany,
   getCompany,
   updateCompany,

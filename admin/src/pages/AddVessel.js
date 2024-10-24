@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import countryList from 'react-select-country-list';
-import { getCompanies } from "../features/company/companySlice";
+import { getCompanies, getCompaniesByCompany } from "../features/company/companySlice";
 import {
   createVessel,
   getAVessel,
@@ -30,8 +30,16 @@ const AddVessel = () => {
   const navigate = useNavigate();
   const getVesselId = location.pathname.split("/")[3];
 
+  const roleState = useSelector((state) => state?.auth?.user);
+
   useEffect(() => {
-    dispatch(getCompanies());
+    if(roleState.role=="Admin")
+    {
+      dispatch(getCompanies());
+    } else if(roleState.role=="Company Personal")
+    {
+      dispatch(getCompaniesByCompany(roleState?.company));
+    }
   }, []);
 
   const newVessel = useSelector((state) => state.vessel);
@@ -41,7 +49,7 @@ const AddVessel = () => {
     isError,
     isLoading,
     createdVessel,
-    vesselName,
+    VesselName,
     updatedVessel,
   } = newVessel;
 
@@ -56,10 +64,13 @@ const AddVessel = () => {
   useEffect(() => {
     if (isSuccess && createdVessel) {
       toast.success("Vessel Added Successfullly!");
+      dispatch(resetState());
+      navigate("/admin/vessels");
     }
     if (isSuccess && updatedVessel) {
       toast.success("Vessel Updated Successfullly!");
-      navigate("/admin/list-vessel");
+      dispatch(resetState());
+      navigate("/admin/vessels");
     }
     if (isError) {
       toast.error("Something Went Wrong!");
@@ -69,13 +80,13 @@ const AddVessel = () => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      title: vesselName?.getAVessel?.title || "",
-      IMO: vesselName?.getAVessel?.IMO || "",
-      company: vesselName?.getAVessel?.company || "",
-      type: vesselName?.getAVessel?.type || "",
-      year: vesselName?.getAVessel?.year || "",
-      flag: vesselName?.getAVessel?.flag || "",
-      tonnage: vesselName?.getAVessel?.tonnage || "",
+      title: VesselName?.title || "",
+      IMO: VesselName?.IMO || "",
+      company: VesselName?.company || "",
+      type: VesselName?.type || "",
+      year: VesselName?.year || "",
+      flag: VesselName?.flag || "",
+      tonnage: VesselName?.tonnage || "",
     },
     validationSchema: schema,
     onSubmit: (values) => {
@@ -131,7 +142,7 @@ const AddVessel = () => {
               console.log(i,j);
               return (
                 <option key={j} value={i._id}>
-                  {i.title}
+                  {i?.title}
                 </option>
               );
             })}

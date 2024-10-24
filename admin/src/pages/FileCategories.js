@@ -46,8 +46,8 @@ const FileCategories = () => {
     tempIdx = tempIdx + 1;
     data1.push({
     key: tempIdx,
-    id: fileCategoryState[i]._id,
-    title: fileCategoryState[i].title,
+    id: fileCategoryState[i]?._id,
+    title: fileCategoryState[i]?.title,
     action: (
         <>
         <Link

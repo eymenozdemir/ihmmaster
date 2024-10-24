@@ -48,10 +48,13 @@ const AddCompany = () => {
   useEffect(() => {
     if (isSuccess && createdCompany) {
       toast.success("Company Added Successfullly!");
+      dispatch(resetState());
+      navigate("/admin/companies");
     }
     if (isSuccess && updatedCompany) {
       toast.success("Company Updated Successfullly!");
-      navigate("/admin/list-company");
+      dispatch(resetState());
+      navigate("/admin/companies");
     }
 
     if (isError) {
@@ -61,13 +64,13 @@ const AddCompany = () => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      title: companyName?.getACompany?.title || "",
-      IMO: companyName?.getACompany?.IMO || "",
-      email: companyName?.getACompany?.email || "",
-      number: companyName?.getACompany?.number || "",
-      address: companyName?.getACompany?.address || "",
-      city: companyName?.getACompany?.city || "",
-      country: companyName?.getACompany?.country || "",
+      title: companyName?.title || "",
+      IMO: companyName?.IMO || "",
+      email: companyName?.email || "",
+      number: companyName?.number || "",
+      address: companyName?.address || "",
+      city: companyName?.city || "",
+      country: companyName?.country || "",
     },
     validationSchema: schema,
     onSubmit: (values) => {

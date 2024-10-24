@@ -39,7 +39,7 @@ import SidenavCollapse from "examples/Sidenav/SidenavCollapse";
 import SidenavRoot from "examples/Sidenav/SidenavRoot";
 import sidenavLogoLabel from "examples/Sidenav/styles/sidenav";
 import { MdOutlineKeyboardArrowDown, MdOutlineKeyboardArrowUp, } from "react-icons/md";
-import logo from "assets/images/IHMMaster-2.png";
+import logo from "assets/images/IHMMaster_logo.png";
 
 // Material Dashboard 2 React context
 import {
@@ -48,6 +48,7 @@ import {
   setTransparentSidenav,
   setWhiteSidenav,
 } from "context";
+import { logout } from "features/auth/authSlice";
 
 function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const [controller, dispatch] = useMaterialUIController();
@@ -237,6 +238,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
         {/* Harmoni Technology */}
         <div>
           <MDButton
+            //onClick={logout}
             component="a"
             href="/"
             rel="noreferrer"

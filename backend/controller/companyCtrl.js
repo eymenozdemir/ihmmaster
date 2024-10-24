@@ -50,10 +50,22 @@ const getallCompanies = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
+
+const getCompaniesByCompany = asyncHandler(async (req, res) => {
+  const { id } = req?.params;
+  try {
+    const getallCompanies = await Company.find({ _id: id });
+    res.json(getallCompanies);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
 module.exports = {
   createCompany,
   updateCompany,
   deleteCompany,
   getCompany,
   getallCompanies,
+  getCompaniesByCompany,
 };

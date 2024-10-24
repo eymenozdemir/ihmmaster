@@ -1,19 +1,26 @@
 const express = require("express");
-const { uploadImages, deleteImages } = require("../controller/uploadCtrl");
+const { uploadImages, deleteImages, uploadFiles, downloadFiles } = require("../controller/uploadCtrl");
 const { isAdmin, authMiddleware } = require("../middlewares/authMiddleware");
-const { uploadPhoto, productImgResize } = require("../middlewares/uploadImage");
+
+const multer = require("multer");
 const router = express.Router();
+const upload = multer();
+
 
 router.post(
-  "/",
-  authMiddleware,
-  uploadPhoto.array("images", 10),
+  "/file",
+  //authMiddleware,
+  upload.any(),
   //productImgResize,
-  uploadImages
+  uploadFiles
 );
 
+router.post(
+  "/download",
+  //authMiddleware,
+  //productImgResize,
+  downloadFiles
+);
 
-
-router.delete("/delete-img/:id", authMiddleware, deleteImages);
 
 module.exports = router;

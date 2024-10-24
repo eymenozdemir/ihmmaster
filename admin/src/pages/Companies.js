@@ -62,12 +62,12 @@ const Companies = () => {
     tempIdx = tempIdx + 1;
     data1.push({
     key: tempIdx,
-    id: companyState[i]._id,
-    title: companyState[i].title,
-    IMO: companyState[i].IMO,
-    email: companyState[i].email,
-    number: companyState[i].number,
-    address: companyState[i].address + ", " + companyState[i].city + ", " + companyState[i].country,
+    id: companyState[i]?._id,
+    title: companyState[i]?.title,
+    IMO: companyState[i]?.IMO,
+    email: companyState[i]?.email,
+    number: companyState[i]?.number,
+    address: companyState[i]?.address + ", " + companyState[i]?.city + ", " + companyState[i]?.country,
     action: (
         <>
         <Link

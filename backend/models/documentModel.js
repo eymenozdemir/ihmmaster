@@ -9,8 +9,16 @@ var documentSchema = new mongoose.Schema(
       unique: true,
       index: true,
     },
-    file: {
-        type: Array,
+    fileName: {
+        type: String,
+        required: true,
+    },
+    fileId: {
+        type: String,
+        required: true,
+    },
+    fileLink: {
+        type: String,
         required: true,
     },
     type: {
@@ -37,7 +45,7 @@ var documentSchema = new mongoose.Schema(
     },
     documentStatus: {
       type: String,
-      default: "New Upload"
+      default: "New Uploaded"
     },
   },
   {

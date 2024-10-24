@@ -1,5 +1,5 @@
-const User = require("../models/userModel_old");
-//const jwt = require("jsonwebtoken");
+const User = require("../models/userModel");
+const jwt = require("jsonwebtoken");
 const asyncHandler = require("express-async-handler");
 
 const authMiddleware = asyncHandler(async (req, res, next) => {
@@ -11,7 +11,9 @@ const authMiddleware = asyncHandler(async (req, res, next) => {
     try {
       if (token) {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        //console.log("decoded", decoded);
         const user = await User.findById(decoded?.id);
+        //console.log("user", user);
         req.headers.user = user;
         next();
       }

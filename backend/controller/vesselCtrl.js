@@ -65,6 +65,16 @@ const getVesselsByCompany = asyncHandler(async (req, res) => {
   }
 });
 
+const getVesselsByVessel = asyncHandler(async (req, res) => {
+  const { id } = req?.params;
+  try {
+    const getallVessels = await Vessel.find({ _id: id }).populate("company");
+    res.json(getallVessels);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
 module.exports = {
   createVessel,
   updateVessel,
@@ -72,4 +82,5 @@ module.exports = {
   getVessel,
   getallVessels,
   getVesselsByCompany,
+  getVesselsByVessel,
 };

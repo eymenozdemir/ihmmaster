@@ -19,14 +19,14 @@
 + fileCategory
 
 + Add vessel
-Add document - File Upload part missing!
++ Add document - File Upload part missing!
 + Add fileCategory
 
-List pages of - Edit and Delete Functions
++ List pages of - Edit and Delete Functions
 + Vessels
 + company
 + users
-documents - add alert for a not seen status - add download function - change status function
++ documents - add alert for a not seen status - add download function - change status function
 + fileCategory
 
 + !!! Modellerdeki referanslar stringe cevrilicek
@@ -36,15 +36,15 @@ documents - add alert for a not seen status - add download function - change sta
 + View pages of
 + Vessels
 + ompany
-documents -  add download function
++ documents -  add download function
 
-Dashboard design for admin
++ Dashboard design for admin, comp, vessel
 
 + Get Function diffs for roles!
-Page differences for roles!
-Sidebar design for roles!
++ Page differences for roles!
++ Sidebar design for roles!
 
-!! ADD sayfalarinda ekleme sonrasi sayfa yenilenebilir veya stateler guncellenmeli selectler calismiyo
++ ADD sayfalarinda ekleme sonrasi sayfa yenilenebilir veya stateler guncellenmeli selectler calismiyo
 
 + backend index.js routleari eklemek!
 + admin store.js reducerlari eklemek!
@@ -52,8 +52,11 @@ Sidebar design for roles!
 ?adding photos for companies & vessels?
 ?close suggestions for password?
 
-Clearance !
++ Clearance !
 PrivateRoutes !
+authmiddlewares to routes !
++ editledikten sonra tekrar edite basilmiyo
++ logout functionality
 
 Note: change baseUrl.js before deploy!
 Note: Cart.find({ userId: _id }).populate("productId");

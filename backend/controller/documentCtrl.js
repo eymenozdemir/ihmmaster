@@ -13,6 +13,20 @@ const createDocument = asyncHandler(async (req, res) => {
 
 const updateDocument = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  console.log(req);
+  validateMongoDbId(id);
+  try {
+    const updatedDocument = await Document.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
+    res.json(updatedDocument);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
+const updateDocumentStatus = asyncHandler(async (req, res) => {
+  const { id } = req.params;
   validateMongoDbId(id);
   try {
     const updatedDocument = await Document.findByIdAndUpdate(id, req.body, {
@@ -78,6 +92,7 @@ const getDocumentsByVessel = asyncHandler(async (req, res) => {
 module.exports = {
   createDocument,
   updateDocument,
+  updateDocumentStatus,
   deleteDocument,
   getDocument,
   getallDocuments,

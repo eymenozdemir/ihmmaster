@@ -23,6 +23,17 @@ export const login = createAsyncThunk(
   }
 );
 
+export const logout = createAsyncThunk(
+  "auth/logout",
+  async (thunkAPI) => {
+    try {
+      return await authService.logout();
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const loginQuickbooks = createAsyncThunk(
   "auth/login-quickbooks",
   async (thunkAPI) => {
@@ -359,6 +370,21 @@ export const authSlice = createSlice({
         state.message = "success";
       })
       .addCase(login.rejected, (state, action) => {
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+        state.isLoading = false;
+      })
+      .addCase(logout.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(logout.fulfilled, (state, action) => {
+        state.isError = false;
+        state.isLoading = false;
+        state.user = [];
+        state.message = "success";
+      })
+      .addCase(logout.rejected, (state, action) => {
         state.isError = true;
         state.isSuccess = false;
         state.message = action.error;

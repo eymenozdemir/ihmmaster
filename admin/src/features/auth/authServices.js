@@ -11,6 +11,16 @@ const login = async (user) => {
   return response.data;
 };
 
+const logout = async () => {
+  //console.log("serviceeddddd 1", user);
+  const response = await axios.get(`${base_url}user/logout`);
+  //console.log("serviceeddddd 2", response);
+  if (response) {
+    localStorage.removeItem("user");
+  }
+  return response.data;
+};
+
 const loginQuickbooks = async () => {
   //console.log("serviceeddddd 1", user);
   const authUri = await axios.post(`${base_url}user/quickbooks-login`);
@@ -346,6 +356,7 @@ const updateUser = async (user) => {
 
 const authService = {
   login,
+  logout,
   loginQuickbooks,
   getCompanyInfo,
   getCompanyInfoGetto,

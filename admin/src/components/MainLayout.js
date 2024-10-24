@@ -1,47 +1,40 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "../features/product/productSlice";
-import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
-import {
-  AiOutlineDashboard,
-  AiOutlineShoppingCart,
-  AiOutlineUser,
-  AiOutlineBgColors,
-} from "react-icons/ai";
-import { RiCouponLine, RiDashboard2Line } from "react-icons/ri";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { Outlet } from "react-router-dom";
-import { FaClipboardList, FaShieldAlt, FaBox, FaBoxes, FaAlgolia } from "react-icons/fa";
-import { MdAssignmentAdd, MdPersonAddAlt1 } from "react-icons/md";
-import { Layout, Menu, theme } from "antd";
+import { Layout, theme } from "antd";
 import { useNavigate } from "react-router-dom";
 import Sidenav from "examples/Sidenav";
 import routes from "routes";
-const { Header, Sider, Content } = Layout;
-
-
-/*
-<div className="d-flex gap-4 align-items-center">
-            <div className="position-relative">
-              <IoIosNotifications className="fs-4" />
-              <span className="badge bg-warning rounded-circle p-1 position-absolute">
-                3
-              </span>
-            </div>
-
-          </div>
-*/
+import { getDocuments } from "features/document/documentSlice";
+import { getDocumentsByCompany } from "features/document/documentSlice";
+import { getDocumentsByVessel } from "features/document/documentSlice";
+import routesForCompany from "routesForCompany";
+import routesForVessel from "routesForVessel";
+const { Sider, Content } = Layout;
 
 const MainLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const roleState = useSelector((state) => state?.auth?.user);
+
   const dispatch = useDispatch();
   useEffect(() => {
-    //dispatch(getProducts());
+    if(roleState.role=="Admin")
+  {
+    dispatch(getDocuments());
+  } else if(roleState.role=="Company Personal")
+  {
+    dispatch(getDocumentsByCompany(roleState?.company));
+  } else if(roleState.role=="Vessel Staff")
+  {
+    dispatch(getDocumentsByVessel(roleState?.vessel));
+  }
   }, []);
+
   //const stockState = useSelector((state) => state?.product?.products?.filter((p) => p?.stockTreshold >= (p?.stockAtlanta + p?.toAtlanta) || p?.stockTreshold >= (p?.stockNashville + p?.toNashville) || p?.stockTreshold >= (p?.stockSavannah + p?.toSavannah)));
-  const documentState = useSelector((state) => state?.product?.products);
+  const documentState = useSelector((state) => state?.document?.documents?.filter((d) => d?.documentStatus !== "Updated"));
   const location = useLocation();
 
   const currentTab = location.pathname.split("/")[2] ? location.pathname.split("/")[2] : "";
@@ -50,15 +43,29 @@ const MainLayout = () => {
   } = theme.useToken();
   const navigate = useNavigate();
   return (
-    <Layout  /* onContextMenu={(e) => e.p?reventDefault()} */>
+    <Layout>
       <Sider trigger={null} style={{ background: "transparent" }} collapsible collapsed={collapsed}>
-           <Sidenav
+           {roleState.role=="Admin" && <Sidenav
               // color={sidenavColor}
               // brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-              brandName="Stone Nature"
-              routes={() => routes(documentState)}
+              brandName="IHM Master"
+              routes={() => routes(documentState)} 
       
-            />
+            />}
+            {roleState.role=="Company Personal" && <Sidenav
+              // color={sidenavColor}
+              // brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
+              brandName="IHM Master"
+              routes={() => routesForCompany(documentState)} 
+      
+            />}
+            {roleState.role=="Vessel Staff" && <Sidenav
+              // color={sidenavColor}
+              // brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
+              brandName="IHM Master"
+              routes={() => routesForVessel(documentState)} 
+      
+            />}
       </Sider>
 
       {/* <Sidenav
@@ -70,21 +77,6 @@ const MainLayout = () => {
             /> */}
    
       <Layout className="site-layout ps-3">
-        {/* <Header
-          className="d-flex justify-content-between ps-5 pe-5"
-          style={{
-            padding: 0,
-            background: colorBgContainer,
-          }}
-        >
-         {React.createElement(
-            collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-            {
-              className: "trigger",
-              onClick: () => setCollapsed(!collapsed),
-            }
-          )} 
-        </Header> */}
         <Content
           style={{
             margin: "24px 16px",

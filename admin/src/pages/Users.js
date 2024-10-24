@@ -63,10 +63,10 @@ const Users = () => {
   if(roleState.role=="Admin")
   {
     dispatch(getAllUsers());
-  } else if(roleState.role=="CompanyPersonal")
+  } else if(roleState.role=="Company Personal")
   {
     dispatch(getUsersByCompany(roleState?.company));
-  } else if(roleState.role=="VesselStaff")
+  } else if(roleState.role=="Vessel Staff")
   {
     dispatch(getUsersByVessel(roleState?.vessel));
   }
@@ -80,13 +80,13 @@ const Users = () => {
     tempIdx = tempIdx + 1;
     data1.push({
     key: tempIdx,
-    id: userstate[i]._id,
-    role: userstate[i].role,
-    name: userstate[i].name,
-    email: userstate[i].email,
-    mobile: userstate[i].mobile,
-    company: userstate[i].company.title,
-    vessel: userstate[i].vessel.title,
+    id: userstate[i]?._id,
+    role: userstate[i]?.role,
+    name: userstate[i]?.name,
+    email: userstate[i]?.email,
+    mobile: userstate[i]?.mobile,
+    company: userstate[i]?.company?.title,
+    vessel: userstate[i]?.vessel?.title,
     action: (
         <>
         <Link

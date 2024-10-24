@@ -23,6 +23,17 @@ export const getVesselsByCompany = createAsyncThunk(
   }
 );
 
+export const getVesselsByVessel = createAsyncThunk(
+  "vessel/get-vessels-by-vessel",
+  async (id, thunkAPI) => {
+    try {
+      return await vesselService.getVesselsByVessel(id);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const getAVessel = createAsyncThunk(
   "vessel/get-vessel",
   async (id, thunkAPI) => {
@@ -107,6 +118,21 @@ export const vesselSlice = createSlice({
         state.vessels = action.payload;
       })
       .addCase(getVesselsByCompany.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(getVesselsByVessel.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getVesselsByVessel.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.vessels = action.payload;
+      })
+      .addCase(getVesselsByVessel.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

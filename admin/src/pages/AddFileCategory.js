@@ -44,7 +44,8 @@ const AddFileCategory = () => {
     }
     if (isSuccess && updatedFileCategory) {
       toast.success("FileCategory Updated Successfullly!");
-      navigate("/admin/list-file-category");
+      dispatch(resetState());
+      navigate("/admin/file-categories");
     }
 
     if (isError) {
@@ -54,7 +55,7 @@ const AddFileCategory = () => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      title: fileCategoryName?.getAFileCategory?.title || "",
+      title: fileCategoryName?.title || "",
     },
     validationSchema: schema,
     onSubmit: (values) => {

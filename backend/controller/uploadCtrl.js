@@ -1,42 +1,69 @@
+const stream = require("stream");
+const path = require("path");
+const { google } = require("googleapis");
+
 const fs = require("fs");
+const Blob = require('blob');
 const asyncHandler = require("express-async-handler");
 
-const {
-  cloudinaryUploadImg,
-  cloudinaryDeleteImg,
-} = require("../utils/cloudinary");
-const uploadImages = asyncHandler(async (req, res) => {
+const KEYFILEPATH = path.join(__dirname, "cred.json");
+const SCOPES = ["https://www.googleapis.com/auth/drive"];
+
+const auth = new google.auth.GoogleAuth({
+    keyFile: KEYFILEPATH,
+    scopes: SCOPES,
+});
+
+
+
+const uploadFiles = asyncHandler(async (req, res) => {
   try {
-    const uploader = (path) => cloudinaryUploadImg(path, "images");
-    const urls = [];
     const files = req.files;
+    const body = req.body;
+    let resData = [];
     for (const file of files) {
-      const { path } = file;
-      const newpath = await uploader(path);
-      //console.log(newpath);
-      urls.push(newpath);
-      fs.unlinkSync(path);
+      const bufferStream = new stream.PassThrough();
+      bufferStream.end(file.buffer);
+      const { data } = await google.drive({ version: "v3", auth }).files.create({
+          media: {
+              mimeType: file.mimeType,
+              body: bufferStream,
+          },
+          requestBody: {
+              name: file.originalname,
+              parents: ["1Xm7r2msJfrOo4qCUgRaRYvsvOLT6lpFV"],
+          },
+          fields: "id,name,mimeType,webContentLink",
+      });
+      console.log(`Uploaded file ${data.name} ${data.id}`);
+      resData = data;
     }
-    const images = urls.map((file) => {
-      return file;
-    });
-    res.json(images);
+    
+    res.json(resData);
   } catch (error) {
     throw new Error(error);
   }
 });
-const deleteImages = asyncHandler(async (req, res) => {
-  const { id } = req.params;
-  //console.log("ctrllll kismii", req, id);
+
+const downloadFiles = asyncHandler(async (req, res) => {
   try {
-    const deleted = cloudinaryDeleteImg(id, "images");
-    res.json({ message: "Deleted" });
+    const fileID = req.body.fileId;
+    console.log(fileID);
+    const file = await google.drive({ version: "v3", auth }).files.get({
+        fileId : fileID,
+        alt: 'media',
+        parents: ["1Xm7r2msJfrOo4qCUgRaRYvsvOLT6lpFV"]
+    })
+    //console.log(`Uploaded file ${data.name} ${data.id}`);
+    
+    console.log(file.status);
+    res.json(file.status);
   } catch (error) {
     throw new Error(error);
   }
 });
 
 module.exports = {
-  uploadImages,
-  deleteImages,
+  uploadFiles,
+  downloadFiles,
 };

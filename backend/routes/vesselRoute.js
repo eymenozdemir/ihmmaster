@@ -6,6 +6,7 @@ const {
   getVessel,
   getallVessels,
   getVesselsByCompany,
+  getVesselsByVessel,
 } = require("../controller/vesselCtrl");
 const { authMiddleware, isAdmin } = require("../middlewares/authMiddleware");
 const router = express.Router();
@@ -16,6 +17,7 @@ router.put("/:id", authMiddleware, isAdmin, updateVessel);
 //router.delete("/:id", authMiddleware, isAdmin, deleteVessel);
 router.delete("/:id", deleteVessel);
 router.get("/by-company/:id", getVesselsByCompany);
+router.get("/by-vessel/:id", getVesselsByVessel);
 router.get("/:id", getVessel);
 router.get("/", getallVessels);
 

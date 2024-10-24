@@ -7,6 +7,8 @@ import { Link } from "react-router-dom";
 import CustomTable from "components/CustomTable";
 import { getDocuments, deleteADocument } from "features/document/documentSlice";
 import { getDocumentsByCompany, getDocumentsByVessel } from "features/document/documentSlice";
+import { downloadFile } from "features/upload/uploadSlice";
+import { updateADocumentStatus } from "features/document/documentSlice";
 const columns = [
   {
     Header: "SNo",
@@ -61,10 +63,10 @@ const Documents = () => {
     if(roleState.role=="Admin")
   {
     dispatch(getDocuments());
-  } else if(roleState.role=="CompanyPersonal")
+  } else if(roleState.role=="Company Personal")
   {
     dispatch(getDocumentsByCompany(roleState?.company));
-  } else if(roleState.role=="VesselStaff")
+  } else if(roleState.role=="Vessel Staff")
   {
     dispatch(getDocumentsByVessel(roleState?.vessel));
   }
@@ -80,11 +82,27 @@ const Documents = () => {
     key: tempIdx,
     id: documentState[i]?._id,
     title: documentState[i]?.title,
-    type: documentState[i]?.type.title,
-    company: documentState[i]?.company.title,
-    vessel: documentState[i]?.vessel.title,
-    status: documentState[i]?.status,
-    statusDate: documentState[i]?.statusDate,
+    type: documentState[i]?.type?.title,
+    company: documentState[i]?.company?.title,
+    vessel: documentState[i]?.vessel?.title,
+    status: (
+      <>
+        <select
+          name=""
+          defaultValue={documentState[i].documentStatus ? documentState[i].documentStatus : "New Uploaded"}
+          className="form-control form-select"
+          id=""
+          onChange={(e) => setDocumentStatus(e.target.value, documentState[i]._id)}
+        >
+          <option value="New Uploaded">New Uploaded</option>
+          <option value="Reviewed by Admin">Reviewed by Admin</option>
+          <option value="Reviewed by Vessel Staff">Reviewed by Vessel Staff</option>
+          <option value="Updated">Updated</option>
+        </select>
+      </>
+    ),
+
+    statusDate: documentState[i]?.statusDate.split("T")[0],
     action: (
         <>
         <Link
@@ -99,12 +117,9 @@ const Documents = () => {
         >
             <AiFillDelete />
         </button>
-        <button
-            className="ms-3 fs-4 text-danger bg-transparent border-0"
-            onClick={() => showModal(documentState[i]._id)}
-        >
-            <AiOutlineDownload />
-        </button>
+        <Link className="ms-3 fs-4 text-success bg-transparent border-0" to={`${documentState[i]?.fileLink}`} target="_blank">
+          <AiOutlineDownload />
+        </Link>
         </>
     ),
     });
@@ -117,6 +132,13 @@ const Documents = () => {
       dispatch(getDocuments());
     }, 100);
   };
+
+  const setDocumentStatus = (e, i) => {
+    //console.log(e, i);
+    const data = { id: i, docData: e };
+    dispatch(updateADocumentStatus(data));
+  };
+
   return (
     <div>
       <h3 className="mb-4 title">Documents</h3>

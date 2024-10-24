@@ -2,6 +2,7 @@ const express = require("express");
 const {
   createDocument,
   updateDocument,
+  updateDocumentStatus,
   deleteDocument,
   getDocument,
   getallDocuments,
@@ -12,8 +13,9 @@ const { authMiddleware, isAdmin } = require("../middlewares/authMiddleware");
 const router = express.Router();
 
 //router.post("/", authMiddleware, isAdmin, createDocument);
+router.put("/status/:id", authMiddleware, updateDocumentStatus);
+router.put("/:id", updateDocument);
 router.post("/",  express.json(), createDocument);
-router.put("/:id", authMiddleware, isAdmin, updateDocument);
 //router.delete("/:id", authMiddleware, isAdmin, deleteDocument);
 router.delete("/:id", deleteDocument);
 router.get("/by-company/:id", getDocumentsByCompany);

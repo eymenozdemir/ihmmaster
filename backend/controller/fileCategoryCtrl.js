@@ -44,7 +44,7 @@ const getFileCategory = asyncHandler(async (req, res) => {
   }
 });
 const getallFileCategories = asyncHandler(async (req, res) => {
-  console.log("ctrlye geldi");
+  //console.log("ctrlye geldi");
   try {
     const getallFileCategories = await FileCategory.find();
     res.json(getallFileCategories);

@@ -13,6 +13,12 @@ const getVesselsByCompany = async (id) => {
   return response.data;
 };
 
+const getVesselsByVessel = async (id) => {
+  const response = await axios.get(`${base_url}vessel/by-vessel/${id}`,config);
+
+  return response.data;
+};
+
 const createVessel = async (vessel) => {
   const response = await axios.post(`${base_url}vessel/`, vessel, config);
   //console.log(vessel);
@@ -21,7 +27,14 @@ const createVessel = async (vessel) => {
 const updateVessel = async (vessel) => {
   const response = await axios.put(
     `${base_url}vessel/${vessel.id}`,
-    { title: vessel.vesselData.title },
+    { title: vessel.vesselData.title,
+      IMO: vessel.vesselData.IMO,
+      company: vessel.vesselData.company,
+      type: vessel.vesselData.type,
+      year: vessel.vesselData.year,
+      flag: vessel.vesselData.flag,
+      tonnage: vessel.vesselData.tonnage,
+     },
     config
   );
 
@@ -42,6 +55,7 @@ const deleteVessel = async (id) => {
 const vesselService = {
   getVessels,
   getVesselsByCompany,
+  getVesselsByVessel,
   createVessel,
   getVessel,
   updateVessel,

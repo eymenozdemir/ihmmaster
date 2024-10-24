@@ -67,6 +67,18 @@ export const updateADocument = createAsyncThunk(
   }
 );
 
+
+export const updateADocumentStatus = createAsyncThunk(
+  "document/update-document-status",
+  async (document, thunkAPI) => {
+    try {
+      return await documentService.updateDocumentStatus(document);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const deleteADocument = createAsyncThunk(
   "document/delete-document",
   async (id, thunkAPI) => {
@@ -178,6 +190,21 @@ export const documentSlice = createSlice({
         state.updatedDocument = action.payload;
       })
       .addCase(updateADocument.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(updateADocumentStatus.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateADocumentStatus.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.updatedDocument = action.payload;
+      })
+      .addCase(updateADocumentStatus.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

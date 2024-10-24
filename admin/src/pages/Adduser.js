@@ -8,8 +8,8 @@ import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import countryList from 'react-select-country-list';
 import { createUsers, getAUser, updateAUser, resetState } from "../features/auth/authSlice";
-import { getCompanies } from "../features/company/companySlice";
-import { getVessels } from "../features/vessel/vesselSlice";
+import { getCompanies, getCompaniesByCompany } from "../features/company/companySlice";
+import { getVessels, getVesselsByCompany, getVesselsByVessel } from "../features/vessel/vesselSlice";
 
 let schema = yup.object().shape({
   role: yup.string().required("Role is required"),
@@ -31,9 +31,23 @@ const Adduser = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const getUserId = location.pathname.split("/")[3];
+
+  const roleState = useSelector((state) => state?.auth?.user);
+  
   useEffect(() => {
-    dispatch(getCompanies());
-    dispatch(getVessels());
+    if(roleState.role=="Admin")
+    {
+      dispatch(getCompanies());
+      dispatch(getVessels());
+    } else if(roleState.role=="Company Personal")
+    {
+      dispatch(getCompaniesByCompany(roleState?.company));
+      dispatch(getVesselsByCompany(roleState?.company));
+    } else if(roleState.role=="Vessel Staff")
+    {
+      dispatch(getCompaniesByCompany(roleState?.company));
+      dispatch(getVesselsByVessel(roleState?.vessel));
+    }
   }, []);
 
   const newUser = useSelector((state) => state.auth);
@@ -59,11 +73,13 @@ const Adduser = () => {
   useEffect(() => {
     if (isSuccess && createdUser) {
       toast.success("User Added Successfullly!");
+      dispatch(resetState());
+      navigate("/admin/users");
     }
     if (isSuccess && updatedUser) {
       toast.success("User Updated Successfullly!");
       dispatch(resetState());
-      navigate("/admin/list-customer");
+      navigate("/admin/users");
     }
     if (isError) {
       toast.error("Something Went Wrong!");
@@ -125,9 +141,9 @@ const Adduser = () => {
             <option value="" disabled>
             Select User Role
             </option>
-            <option value="Admin">Admin</option>
-            <option value="CompanyPersonal">Authorized Company Personal</option>
-            <option value="VesselStaff">Vessel Staff</option>
+            {roleState?.role=="Admin" && <option value="Admin">Admin</option>}
+            {roleState?.role!=="Vessel Staff" && <option value="Company Personal">Authorized Company Personal</option>}
+            <option value="Vessel Staff">Vessel Staff</option>
           </select>
 
           <select
@@ -141,8 +157,8 @@ const Adduser = () => {
             <option value="">Select Company</option>
             {companyState.map((i, j) => {
               return (
-                <option key={j} value={i._id}>
-                  {i.title}
+                <option key={j} value={i?._id}>
+                  {i?.title}
                 </option>
               );
             })}
@@ -160,7 +176,7 @@ const Adduser = () => {
             {vesselState.map((i, j) => {
               return (
                 <option key={j} value={i._id}>
-                  {i.title}
+                  {i?.title}
                 </option>
               );
             })}
