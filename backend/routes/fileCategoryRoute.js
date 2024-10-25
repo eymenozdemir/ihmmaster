@@ -13,8 +13,8 @@ const router = express.Router();
 router.post("/",  express.json(), createFileCategory);
 router.put("/:id", authMiddleware, isAdmin, updateFileCategory);
 //router.delete("/:id", authMiddleware, isAdmin, deleteFileCategory);
-router.delete("/:id", deleteFileCategory);
-router.get("/:id", getFileCategory);
-router.get("/", getallFileCategories);
+router.delete("/:id", authMiddleware, deleteFileCategory);
+router.get("/:id", authMiddleware, getFileCategory);
+router.get("/", authMiddleware, getallFileCategories);
 
 module.exports = router;

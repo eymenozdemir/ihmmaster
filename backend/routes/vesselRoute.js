@@ -15,10 +15,10 @@ const router = express.Router();
 router.post("/",  express.json(), createVessel);
 router.put("/:id", authMiddleware, isAdmin, updateVessel);
 //router.delete("/:id", authMiddleware, isAdmin, deleteVessel);
-router.delete("/:id", deleteVessel);
-router.get("/by-company/:id", getVesselsByCompany);
-router.get("/by-vessel/:id", getVesselsByVessel);
-router.get("/:id", getVessel);
-router.get("/", getallVessels);
+router.delete("/:id", authMiddleware, deleteVessel);
+router.get("/by-company/:id", authMiddleware, getVesselsByCompany);
+router.get("/by-vessel/:id", authMiddleware, getVesselsByVessel);
+router.get("/:id", authMiddleware, getVessel);
+router.get("/", authMiddleware, getallVessels);
 
 module.exports = router;

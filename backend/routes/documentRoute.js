@@ -14,13 +14,13 @@ const router = express.Router();
 
 //router.post("/", authMiddleware, isAdmin, createDocument);
 router.put("/status/:id", authMiddleware, updateDocumentStatus);
-router.put("/:id", updateDocument);
+router.put("/:id", authMiddleware, updateDocument);
 router.post("/",  express.json(), createDocument);
 //router.delete("/:id", authMiddleware, isAdmin, deleteDocument);
-router.delete("/:id", deleteDocument);
-router.get("/by-company/:id", getDocumentsByCompany);
-router.get("/by-vessel/:id", getDocumentsByVessel);
-router.get("/:id", getDocument);
-router.get("/", getallDocuments);
+router.delete("/:id", authMiddleware, deleteDocument);
+router.get("/by-company/:id", authMiddleware, getDocumentsByCompany);
+router.get("/by-vessel/:id", authMiddleware, getDocumentsByVessel);
+router.get("/:id", authMiddleware, getDocument);
+router.get("/", authMiddleware, getallDocuments);
 
 module.exports = router;

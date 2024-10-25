@@ -14,9 +14,9 @@ const router = express.Router();
 router.post("/",  express.json(), createCompany);
 router.put("/:id", authMiddleware, isAdmin, updateCompany);
 //router.delete("/:id", authMiddleware, isAdmin, deleteCompany);
-router.delete("/:id", deleteCompany);
-router.get("/by-company/:id", getCompaniesByCompany);
-router.get("/:id", getCompany);
-router.get("/", getallCompanies);
+router.delete("/:id", authMiddleware, deleteCompany);
+router.get("/by-company/:id", authMiddleware, getCompaniesByCompany);
+router.get("/:id", authMiddleware, getCompany);
+router.get("/", authMiddleware, getallCompanies);
 
 module.exports = router;
