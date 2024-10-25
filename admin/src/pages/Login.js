@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import { login, logout } from "../features/auth/authSlice";
+import { createUsers, login, logout } from "../features/auth/authSlice";
 
 
 
@@ -57,6 +57,21 @@ function Basic() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  let firstValues = {
+    role: "Admin",
+    name: "Eymen Ozdemir",
+    email: "eymenozdemir55@gmail.com",
+    mobile: "+905395665900",
+    company: "6714fed6305ddf9e05d78b75",
+    vessel: "6714fed6305ddf9e05d78b75",
+    address: "aydinevler, maltepe",
+    city: "Istanbul",
+    state: "Istanbul",
+    country: "Turkey",
+    zip: "34854",
+    password: "qwerty123",
+  }
 
   useEffect(() => {
     dispatch(logout());
@@ -117,6 +132,11 @@ function Basic() {
             <MDBox mt={4} mb={1}>
               <MDButton variant="gradient" color="info" fullWidth onClick={() => { formik.handleSubmit() }}>
                 sign in
+              </MDButton>
+            </MDBox>
+            <MDBox mt={4} mb={1}>
+              <MDButton variant="gradient" color="info" fullWidth onClick={() => { dispatch(createUsers(firstValues)) }}>
+                first user
               </MDButton>
             </MDBox>
             
