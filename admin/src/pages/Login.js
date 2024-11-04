@@ -134,11 +134,6 @@ function Basic() {
                 sign in
               </MDButton>
             </MDBox>
-            <MDBox mt={4} mb={1}>
-              <MDButton variant="gradient" color="info" fullWidth onClick={() => { dispatch(createUsers(firstValues)) }}>
-                first user
-              </MDButton>
-            </MDBox>
             
           </MDBox>
         </MDBox>
