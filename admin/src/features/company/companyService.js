@@ -2,7 +2,7 @@ import axios from "axios";
 import { config } from "../../utils/axiosconfig";
 import { base_url } from "../../utils/baseUrl";
 const getCompanies = async () => {
-  const response = await axios.get(`${base_url}company/`);
+  const response = await axios.get(`${base_url}company/`,config);
 
   return response.data;
 };

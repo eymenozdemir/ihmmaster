@@ -304,7 +304,7 @@ const getUser = async (id) => {
 };
 
 const getUsers = async () => {
-  const response = await axios.get(`${base_url}user/all-users`);
+  const response = await axios.get(`${base_url}user/all-users`, config);
 
   return response.data;
 };

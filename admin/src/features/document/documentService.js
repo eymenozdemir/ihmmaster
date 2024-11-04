@@ -3,7 +3,7 @@ import { config } from "../../utils/axiosconfig";
 import { base_url } from "../../utils/baseUrl";
 
 const getDocuments = async () => {
-  const response = await axios.get(`${base_url}document/`);
+  const response = await axios.get(`${base_url}document/`,config);
   return response.data;
 };
 
