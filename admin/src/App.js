@@ -32,9 +32,9 @@ import themeDark from "assets/theme-dark";
 import { useMaterialUIController } from "context";
 
 // Images
-import AdminDashboard from "pages/AdminDashboard";
-import CompanyDashboard from "pages/CompanyDashboard";
-import VesselDashboard from "pages/VesselDashboard";
+import AdminDashboard from "./pages/AdminDashboard";
+import CompanyDashboard from "./pages/CompanyDashboard";
+import VesselDashboard from "./pages/VesselDashboard";
 
 // react-router components
 // import {   useLocation } from "react-router-dom";

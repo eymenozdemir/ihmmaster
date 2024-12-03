@@ -215,7 +215,7 @@ const CompanyDashboard = () => {
     label: "people are saving time with IHM Master!",
   };
 
-  if (roleState?.role === "Company Personel") {
+  if (roleState?.role === "Company Personal") {
     isCompany = true;
   }
 
